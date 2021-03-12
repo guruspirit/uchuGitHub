@@ -1,2 +1,0 @@
-print("feature24");
-print("ok");
