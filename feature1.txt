@@ -1,2 +1,2 @@
-print("feature");
+print("feature2");
 print("ok");
