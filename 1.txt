@@ -1,0 +1,4 @@
+print("red");
+println("Синий ящик");
+print("изменение в ветке dev перед rebase from dev to main!");
+print("объединено main and dev");
