@@ -1,1 +1,1 @@
-new temp string in the new temp file2
+new temp string in the new temp file2 adding error
