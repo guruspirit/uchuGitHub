@@ -1038,3 +1038,429 @@ print(result)
 result2 = list(map((lambda x: x + 5), (nums)))
 print(result2)
 
+
+
+84. Регулярные выражения
+
+
+
+Представляют собой предметно-ориннтированный язык и доступны как библиотека в большинстве яп.
+
+- используются, чтобы определить соответствует ли строка определенному набору символов (например, имеет ли строка формат адреса электронной почты).
+
+- когда нужно выполнить замену в строке по шаблону.
+
+Также ПОЯП используются в базах данных
+
+
+
+
+
+import re
+
+pattern = r"spam"   # pattern - шаблон  match - совпадение   span - интервал
+
+patternpop = r"pop"
+
+print(re.match(pattern,"spamspamspamы")) # находит паттерн только в начале слова
+
+# <re.Match object; span=(3, 7), match='spam'>
+
+print(re.search(pattern,"eggspamsausagespam"))
+
+# <re.Match object; span=(3, 7), match='spam'>
+
+print(re.finditer(pattern,"eggspamsausagespam")) # <callable_iterator object at 0x000001CDCEB60220>
+
+# span = интервал
+
+print(re.findall(pattern,"spameggspamsausagespam")) # ['spam', 'spam', 'spam']
+
+print(re.findall(patternpop,"popopopopopopop"))
+
+
+
+pattern = r"pam"
+
+match = re.search(pattern,"eggspazmsausagespam")
+
+if match:
+
+    print(match.group()) # pam
+
+    print(match.start()) # 16
+
+    print(match.end()) # 19
+
+    print(match.span)
+
+
+
+str = "My name is spam spam spam"
+
+
+
+pattern = r"spam"
+
+newstr = re.sub(pattern,"Andrey",str,2)
+
+print(newstr) # My name is Andrey Andrey spam
+
+
+
+85. Метасимволы - позволяют выражать сложные условия, например повторяющиеся гласные
+
+pattern = r"hello" # где r - сырая строка, которая не нуждается в экранировании косой чертой
+
+. - любая буква, цифра или точка
+
+^ - символ начала строки
+
+& - символ конца строки
+
+pattern = r"^gr.y$"
+
+
+
+86. Классы символов
+
+
+
+str = "hello my friend"
+
+pattern = r"[aeiou]" # поиск конкретного символа из набота символов
+
+print(re.findall(pattern,str)) # ['e', 'o', 'i', 'e']
+
+
+
+
+
+str = "hello my friend-"
+
+pattern = r"[a-z -][A-Z][0-9]" #поиск конкретного символа в диапазоне от а до z
+
+print(re.search(pattern,str)) # <re.Match object; span=(0, 1), match='h'>
+
+
+
+str = '!уel^Flo my Friend-'
+
+pattern = r"!..[^a-e]"
+
+print(re.search(pattern,str))
+
+
+
+87. Метасимволы
+
+* - 0 и более упоминаний объекта поиска
+
+* = {0, }
+
+| - Первый или второй аргумент
+
+pattern = r"gr(a|e)y"
+
+str = "eggspaspaspaspa"
+
+pattern = r"egg(spa)*"
+
+print(re.match(pattern,str))
+
+
+
++ - 1 и более упоминаний объекта поиска
+
+? - 0 или одно повторение
+
+(ab){1,3} - количество упоминаний выражения ab
+
+
+
+88. Группы
+
+группа создается путем заключения части регулярного выражения в скобки (123).
+
+группа является аргументом для * и ?
+
+
+
+pattern = r"a(bc)(de)(f(g)h)i"
+
+match = re.search(pattern,"abcdefghijklmn")
+
+
+
+if match:
+
+    print(match.group()) # abcdefghi
+
+    print(match.group(1)) # bc
+
+    print(match.group(2)) # de
+
+    print(match.group(3)) # fgh
+
+    print(match.group(4)) # g
+
+    print(match.groups()) # ('bc', 'de', 'fgh', 'g')
+
+
+
+pattern = r"a(?P<first>bc)(de)(?:f(g)h)i"
+
+match = re.search(pattern,"abcdefghijklmn")
+
+print(match.group("first")) # bc
+
+
+
+
+
+pattern = r"(light)|(lihgt).?"
+
+match = re.search(pattern,"lihgtweight")
+
+print(match)
+
+
+
+89. Специальные последовательности
+
+
+
+pattern = r"(abc)\1"
+
+print(re.search(pattern,"abcabc"))
+
+
+
+pattern = r"(abc)dadfas\1"
+
+print(re.search(pattern,"abcdadfasabcdadfas"))
+
+# <re.Match object; span=(0, 12), match='abcdadfasabc'>
+
+\d - цифра \D - не цифра
+
+\s - пробел \S - не пробел
+
+\w - символ \W - не символ(буква, цифра, нижнее подчеркивание и другие символы tnrfv_)
+
+
+
+pattern = r"(\d*\W)+"
+
+print(re.search(pattern,r"123!456!"))
+
+# <re.Match object; span=(0, 8), match='123!456!'>
+
+
+
+\A - начало строки
+
+\Z - конец строки
+
+\b - словораздел. Пробел или другой знак  "\bcat\b" = " cat "
+
+
+
+90.  Email
+
+pattern = r"([\w\.-]+)@([\w\.-]+)(\.[\w\.]+)"
+
+
+
+
+
+import re
+
+input=input()
+
+#введите код сюда
+
+pattern=r"\b(1|8|9)\d{7}\b"
+
+match=re.search(pattern ,input)
+
+if(match):
+
+    print ("Valid")
+
+else :
+
+    print ("Invalid")
+
+
+
+95. Аргументы функций
+
+
+
+def function(named_arg, *args):
+
+    print(args)
+
+function(1, 2, 3, 4, 5) #  ( 2, 3, 4, 5)
+
+
+
+def function(x, y, food="spam"):
+
+    print(food)
+
+function(1, 2) #spam
+
+function(3, 4, "egg") #egg
+
+
+
+def my_func(x, y=7, *args, **kwargs):
+
+    print(kwargs)
+
+my_func(2, 3, 4, 5, 6, a=7, b=8) # {a:7, b:8}
+
+
+
+96. Распаковка кортежей
+
+numbers = (1, 2, 3)
+
+a, b, c = numbers
+
+print(a)
+
+print(b)
+
+print(c)
+
+
+
+a, b, *c, d = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+print(a) # 1
+
+print(b) # 2
+
+print(c) # [3, 4, 5, 6, 7, 8]
+
+print(d) # 9
+
+
+
+97. Тернарные операции
+
+a = 7
+
+b = 1 if a >= 5 else 42 #если а>=5 то b=1 иначе б=42
+
+print(b)
+
+
+
+98.  Дополнительно об else
+
+
+
+for i in range(10):
+
+    if i == 999:
+
+        break
+
+else:
+
+    print("Unbroken 1") # выполнится, если не произойдёт break
+
+
+
+for i in range(10):
+
+    if i == 5:
+
+        break
+
+else:
+
+    print("Unbroken 2")
+
+
+
+try:
+
+    print(1)
+
+except ZeroDivisionError:
+
+    print(2)
+
+else:
+
+    print("ошибки не произошло.")
+
+99. __main__
+
+Лучше файл с исходным кодом импортировать как модель и запустить как сценарий.
+
+def function():
+    print("This is a module function")
+
+if __name__=="__main__": # не будет запущен при импортировании файла.
+    print("This is a script")
+
+# если файл импортируется из другого модуля, модулю будет дано имя __name__.
+Сохраним код в файл sololearn.py
+
+def function():
+    print("This is a module function")
+
+if __name__=="__main__":
+    print("This is a script")
+
+Мы можем вызвать его из другого файла сценария some_script.py
+
+import sololearn
+sololearn.function()
+
+100. Библиотеки сторонних разработчиков.
+
+Django - каркас веб-приложений (instagram)
+CherryPy,  Flask - аналогичные каркасы BeautifulSoup - для вытягивания содержимого сайтов.
+Mathplotlib - создаёт графики на основании данных из python.
+MathPy - для работы с многомерными массивами.
+PyGame - для создания 2d игр
+Panda3d - для создания 3d игр
+
+101. Сборка пакетов
+
+Модули setuptools и distutils. Позволят сохранить созданные мною модули в стандартном формате, чтобы другие программисты могли пользоваться ими.
+
+SoloLearn/
+LICENSE.txt
+README.txt
+setup.py
+sololearn/
+__init__.py
+sololearn.py
+sololearn2.py
+
+Содержание файла setup.py:
+
+from distutils.core import setup
+
+setup(
+    name='SoloLearn',
+    version='0.1dev',
+    packages=['sololearn',],
+    license='MIT',
+    long_description=open('README.txt').read(),
+)
+
+Пакет устанавливается командой python setup.py install
+
+102. Сборка для пользователей
+
+Сборка пакетов
+Компиляция в исполняемый файл py2exe, PyInstaller, cx_Freese
